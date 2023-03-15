@@ -16,17 +16,17 @@ go run main.go
 
 ```
 $ mongosh
-Current Mongosh Log ID:	62c85f2e06f116bce730410d
-Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.0
-Using MongoDB:		5.0.42
-Using Mongosh:		1.5.0
+Current Mongosh Log ID:	64116d42ca2d5e0cab0c58d8
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0
+Using MongoDB:		6.0.42
+Using Mongosh:		1.8.0
 
 For mongosh info see: https://docs.mongodb.com/mongodb-shell/
 
 ------
    The server generated these startup warnings when booting
-   2022-07-08T16:45:34.328Z: Powered by 🥭 FerretDB unknown and PostgreSQL 14.4.
-   2022-07-08T16:45:34.328Z: Please star us on GitHub: https://github.com/FerretDB/FerretDB
+   2023-03-15T07:01:22.38Z: Powered by FerretDB unknown and PostgreSQL 15.2.
+   2023-03-15T07:01:22.38Z: Please star us on GitHub: https://github.com/FerretDB/FerretDB.
 ------
 
 test> db.test.find()

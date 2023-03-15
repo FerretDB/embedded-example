@@ -50,6 +50,9 @@ func main() {
 	log.SetOutput(os.Stderr)
 
 	f, err := ferretdb.New(&ferretdb.Config{
+		Listener: ferretdb.ListenerConfig{
+			TCP: "127.0.0.1:27017",
+		},
 		Handler:       "pg",
 		PostgreSQLURL: "postgres://postgres:password@127.0.0.1:5432/postgres",
 	})
