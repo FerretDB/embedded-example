@@ -34,5 +34,4 @@ For mongosh info see: https://docs.mongodb.com/mongodb-shell/
 
 test> db.test.find()
 [ { _id: ObjectId("642b78be03eb5aed54f767bc"), hello: 'world' } ]
-test>
 ```
