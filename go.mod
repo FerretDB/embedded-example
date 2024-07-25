@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.5
 
 require (
-	github.com/FerretDB/FerretDB v1.22.1-0.20240724075441-858324e06846
+	github.com/FerretDB/FerretDB v1.23.0
 	go.mongodb.org/mongo-driver v1.16.0
 )
 

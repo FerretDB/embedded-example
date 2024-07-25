@@ -57,8 +57,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error)
+
 	go func() {
 		done <- f.Run(ctx)
 	}()
@@ -68,5 +69,9 @@ func main() {
 
 	runExampleClient(uri)
 
-	log.Fatal(<-done)
+	cancel()
+	err = <-done
+	if err != nil {
+		log.Fatal(err)
+	}
 }
