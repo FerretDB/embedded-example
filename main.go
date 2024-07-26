@@ -50,14 +50,16 @@ func main() {
 		Listener: ferretdb.ListenerConfig{
 			TCP: "127.0.0.1:27017",
 		},
-		Handler:   "sqlite",
-		SQLiteURL: "file:data/",
+		Handler:       "postgresql",
+		PostgreSQLURL: "postgres://postgres:password@127.0.0.1:5432/postgres",
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	done := make(chan error)
 
 	go func() {
@@ -69,7 +71,8 @@ func main() {
 
 	runExampleClient(uri)
 
-	cancel()
+	// cancel()
+
 	err = <-done
 	if err != nil {
 		log.Fatal(err)
