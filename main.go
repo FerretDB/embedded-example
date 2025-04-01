@@ -3,18 +3,20 @@ package main
 import (
 	"context"
 	"log"
+	"log/slog"
+	"os"
 
-	"github.com/FerretDB/FerretDB/ferretdb"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/FerretDB/FerretDB/v2/ferretdb"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // runExampleClient shows an example of running MongoDB client with embedded FerretDB.
 func runExampleClient(uri string) {
 	ctx := context.Background()
 
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,23 +49,22 @@ func runExampleClient(uri string) {
 
 func main() {
 	f, err := ferretdb.New(&ferretdb.Config{
-		Listener: ferretdb.ListenerConfig{
-			TCP: "127.0.0.1:27017",
-		},
-		Handler:       "postgresql",
 		PostgreSQLURL: "postgres://postgres:password@127.0.0.1:5432/postgres",
+		ListenAddr:    "127.0.0.1:27017",
+		StateDir:      ".",
+		LogLevel:      slog.LevelInfo,
+		LogOutput:     os.Stderr,
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	done := make(chan error)
+	ctx := context.Background()
+	done := make(chan struct{})
 
 	go func() {
-		done <- f.Run(ctx)
+		f.Run(ctx)
+		close(done)
 	}()
 
 	uri := f.MongoDBURI()
@@ -71,10 +72,5 @@ func main() {
 
 	runExampleClient(uri)
 
-	// cancel()
-
-	err = <-done
-	if err != nil {
-		log.Fatal(err)
-	}
+	<-done
 }
